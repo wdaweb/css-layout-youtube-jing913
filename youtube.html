@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      box-sizing: border-box;
+      font-family: '微軟正黑體';
+      font-size: 14px;
+    }
+
+    /* 設定所有 icon 大小 */
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* 清除所有 button border */
+    button {
+      /* 消除邊框 */
+      border: none;
+    }
+
+    /* 頁首 */
+    #header {
+      height: 60px;
+      /* 固定在頂端 */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+
+      /* 彈性盒 */
+      display: flex;
+      /* 水平居中 */
+      justify-content: space-between;
+      /* 垂直居中 */
+      align-items: center;
+      padding: 0 20px;
+      background-color: white;
+
+      .header-left {
+        display: flex;
+        align-items: center;
+
+        /* 側邊欄按鈕 */
+        .sidebar-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: transparent;
+        }
+
+        .sidebar-btn:hover {
+          cursor: pointer;
+          background-color: #f2f2f2;
+        }
+
+      }
+
+      /* 中間搜尋功能 */
+      .header-center {
+        display: flex;
+        align-items: center;
+
+        /* 搜尋列 */
+        .search-box {
+          width: 500px;
+          height: 40px;
+          display: flex;
+
+          border: 1px solid #ccc;
+          border-radius: 40px;
+          overflow: hidden;
+
+          /* 輸入框 */
+          input {
+            flex-grow: 1;
+            border: none;
+            padding-left: 15px;
+            /* font-size: 14px; */
+          }
+
+          /* 搜尋按鈕 */
+          .search-btn {
+            padding: 0 15px;
+            background-color: #f8f8f8;
+            border-left: 1px solid #ccc;
+          }
+
+          .search-btn:hover {
+            cursor: pointer;
+            background-color: #f0f0f0;
+          }
+
+        }
+
+        /* 語音搜尋按鈕 */
+        .microphone-btn {
+          margin-left: 12px;
+          /* background-color: orange; */
+          background-color: #f2f2f2;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+
+        .microphone-btn:hover {
+          cursor: pointer;
+          background-color: #e5e5e5;
+        }
+      }
+
+      /* 右邊用戶功能區 */
+      .header-right {
+        display: flex;
+        align-items: center;
+
+        /* 建立按鈕 */
+        .add-btn {
+          display: flex;
+          align-items: center;
+          margin-right: 5px;
+          background-color: #f2f2f2;
+          padding: 0 12px;
+          height: 36px;
+          border-radius: 18px;
+          /* 圖標與文字距離 */
+          gap: 6px;
+          font-weight: 500;
+
+          .add-icon {
+            width: 20px;
+            height: 20px;
+          }
+        }
+
+        .add-btn:hover {
+          cursor: pointer;
+          background-color: #e5e5e5;
+        }
+
+        /* 通知按鈕 */
+        .notify-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: transparent;
+        }
+
+        .notify-btn:hover {
+          cursor: pointer;
+          background-color: #f2f2f2;
+        }
+
+        /* 用戶 */
+        .user {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          margin-left: 8px;
+          cursor: pointer;
+
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+
+    /* main */
+    #main {
+      width: 100%;
+      display: flex;
+
+      /* 側邊欄 */
+      #sidebar {
+        width: 250px;
+        height: calc(100vh - 60px);
+        overflow: auto;
+        position: fixed;
+        left: 0;
+        top: 60px;
+
+        ul {
+          padding-left: 13px;
+          list-style: none;
+        }
+
+        /* 分隔線樣式 */
+        hr {
+          border: 1px solid #e5e5e5;
+          margin: 10px 0;
+        }
+
+        a {
+          color: black;
+          text-decoration: none;
+          padding: 8px 15px;
+          display: flex;
+          align-items: center;
+
+          /* 側邊欄 icon */
+          .sb-icon {
+            margin-right: 20px;
+          }
+        }
+
+        a:hover {
+          border-radius: 15px;
+          background-color: #f2f2f2;
+        }
+
+        /* 側邊欄小標題 */
+        .sidebar-title {
+          font-size: 16px;
+          padding: 8px 15px;
+        }
+
+        /* 個人中心 icon */
+        .sb-title-icon {
+          margin-left: 6px;
+          width: 20px;
+          /* 讓他靠下一點 */
+          transform: translateY(1px)
+        }
+
+      }
+
+      /* 影片內容區 */
+      #content {
+        width: calc(100% - 250px);
+        margin-left: 270px;
+        padding: 20px;
+
+        position: relative;
+        top: 60px;
+
+        display: flex;
+        flex-direction: column;
+
+        /* 上：內容區置頂列 */
+        #tags-bar {
+          display: flex;
+          flex-wrap: wrap;
+          /* 按鈕間隔 */
+          gap: 10px;
+          padding-bottom: 15px;
+
+          button {
+            padding: 8px 12px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+          }
+
+          button:hover {
+            cursor: pointer;
+            background-color: #e5e5e5;
+          }
+        }
+
+        /* 下：影片內容區 */
+        #video-container {
+          width: 100%;
+          margin-top: 15px;
+
+          display: flex;
+          flex-wrap: wrap;
+          /* justify-content: space-between; */
+          gap: 20px;
+
+          .video-card {
+            /* 一排三個 */
+            width: 32%;
+            height: 330px;
+            background-color: #f9f9f9;
+            /* border: 1px solid #e5e5e5; */
+            border-radius: 12px;
+
+            img {
+              width: 100%;
+              height: 320px;
+            }
+          }
+        }
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- header -->
+  <div id="header">
+    <div class="header-left">
+      <!-- 側邊欄按鈕 -->
+      <button class="sidebar-btn">
+        <img class="icon" src="./images/icon/menu.svg">
+      </button>
+      <!-- Logo -->
+      <a href="https://www.youtube.com/">
+        <img src="./images/logo.png" height="60" alt="YouTube首頁" title="YouTube首頁">
+      </a>
+    </div>
+    <!-- 搜尋列 -->
+    <div class="header-center">
+      <div class="search-box">
+        <input type="text" placeholder="搜尋">
+        <!-- 搜尋按鈕 -->
+        <button class="search-btn">
+          <img class="icon" src="./images/icon/search.svg" alt="搜尋" title="搜尋">
+        </button>
+      </div>
+      <!-- 語音搜尋 -->
+      <button class="microphone-btn">
+        <img class="icon" src="./images/icon/microphone.svg" alt="使用語音搜尋" title="使用語音搜尋">
+      </button>
+    </div>
+    <!-- 用戶中心 -->
+    <div class="header-right">
+      <!-- 建立功能 -->
+      <button class="add-btn">
+        <img class="add-icon" src="./images/icon/add.svg">
+        <span>建立</span>
+      </button>
+      <!-- 通知 -->
+      <button class="notify-btn">
+        <img class="icon" src="./images/icon/notify.svg" alt="通知" title="通知">
+      </button>
+      <!-- 用戶 -->
+      <div class="user">
+        <img src="./images/user.jpg">
+      </div>
+    </div>
+  </div>
+
+  <!-- 內容分成左右呈現 -->
+  <div id="main">
+    <!-- 左：側邊欄 -->
+    <div id="sidebar">
+      <ul>
+        <li><a href="https://www.youtube.com/" title="首頁"><img class="icon sb-icon" src="./images/icon/home.svg">首頁</a>
+        </li>
+        <li><a href="https://www.youtube.com/shorts/" title="Shorts"><img class="icon sb-icon"
+              src="./images/icon/shorts.png">Shorts</a>
+        </li>
+        <li><a href="https://www.youtube.com/feed/subscriptions" title="訂閱內容"><img class="icon sb-icon"
+              src="./images/icon/yt-playlist.png">訂閱內容</a></li>
+        <li>
+          <hr>
+        </li>
+        <li><a href="https://www.youtube.com/feed/you" style="font-size: 16px;" title="個人中心">個人中心<img
+              class="sb-title-icon" src="./images/icon/arrow_right.svg"></a>
+        </li>
+        <li><a href="https://www.youtube.com/feed/history" title="觀看紀錄"><img class="icon sb-icon"
+              src="./images/icon/history.svg">觀看紀錄</a>
+        </li>
+        <li><a href="https://www.youtube.com/feed/playlists" title="播放清單"><img class="icon sb-icon"
+              src="./images/icon/playlist.svg">播放清單</a>
+        </li>
+        <li><a href="https://www.youtube.com/playlist?list=WL" title="稍後觀看"><img class="icon sb-icon"
+              src="./images/icon/clock.svg">稍後觀看</a>
+        </li>
+        <li><a href="https://www.youtube.com/playlist?list=LL" title="喜歡的影片"><img class="icon sb-icon"
+              src="./images/icon/like.svg">喜歡的影片</a>
+        </li>
+        <li><a href="https://www.youtube.com/feed/downloads" title="已下載的內容"><img class="icon sb-icon"
+              src="./images/icon/download.svg">已下載的內容</a>
+        </li>
+        <li>
+          <hr>
+        </li>
+        <li class="sidebar-title">探索</li>
+        <li><a href="https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ" title="音樂"><img class="icon sb-icon"
+              src="./images/icon/music.svg">音樂</a></li>
+        <li><a href="https://www.youtube.com/feed/storefront?bp=ogUCKAU%3D" title="電影"><img class="icon sb-icon"
+              src="./images/icon/Movie.svg">電影</a></li>
+        <li><a href="https://www.youtube.com/channel/UC4R8DWoMoI7CAwX8_LjQHig" title="直播"><img class="icon sb-icon"
+              src="./images/icon/signal.svg">直播</a></li>
+        <li><a href="" title="顯示更多"><img class="icon sb-icon" src="./images/icon/arrow_down.svg">顯示更多</a></li>
+        <li>
+          <hr>
+        </li>
+        <li class="sidebar-title">更多 YouTube 功能</li>
+        <li><a href="https://www.youtube.com/premium" title="YouTube Premium"><img class="icon sb-icon"
+              src="./images/icon/youtube.svg">YouTube Premium</a></li>
+        <li>
+          <a href="https://music.youtube.com/" title="YouTube Music">
+            <img class="icon sb-icon" src="./images/icon/Youtubemusic.svg">YouTube Music</a>
+        </li>
+        <li><a href="https://www.youtubekids.com/?source=youtube_web" title="YouTube Kids"><img class="icon sb-icon"
+              src="./images/icon/YouTube_Kids.svg">YouTube Kids</a></li>
+        <li>
+          <hr>
+        </li>
+        <li><a href="https://www.youtube.com/reporthistory" title="檢舉紀錄"><img class="icon sb-icon"
+              src="./images/icon/flag.svg">檢舉紀錄</a>
+        </li>
+      </ul>
+    </div>
+    <!-- 右：分上下兩區 -->
+    <div id="content">
+      <!-- 上：內容區置頂列 -->
+      <div id="tags-bar">
+        <button>全部</button>
+        <button>遊戲</button>
+        <button>音樂</button>
+        <button>Podcast</button>
+        <button>直播中</button>
+        <button>新聞</button>
+        <button>棒球</button>
+        <button>動畫</button>
+        <button>觀光</button>
+        <button>烹飪</button>
+        <button>動作冒險遊戲</button>
+        <button>足球</button>
+        <button>最新上傳</button>
+        <button>讓你耳目一新</button>
+      </div>
+      <!-- 下：影片內容區 -->
+      <div id="video-container">
+        <div class="video-card"><img src="./images/news.JPG"></div>
+        <div class="video-card"><img src="./images/news2.JPG"></div>
+        <div class="video-card"><img src="./images/news3.JPG"></div>
+        <div class="video-card"><img src="./images/news4.JPG"></div>
+        <div class="video-card"><img src="./images/news5.JPG"></div>
+        <div class="video-card"><img src="./images/news6.JPG"></div>
+        <div class="video-card"><img src="./images/news7.JPG"></div>
+        <div class="video-card"><img src="./images/news8.JPG"></div>
+        <div class="video-card"><img src="./images/news9.JPG"></div>
+        <div class="video-card"><img src="./images/news.JPG"></div>
+        <div class="video-card"><img src="./images/news2.JPG"></div>
+        <div class="video-card"><img src="./images/news3.JPG"></div>
+      </div>
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>
